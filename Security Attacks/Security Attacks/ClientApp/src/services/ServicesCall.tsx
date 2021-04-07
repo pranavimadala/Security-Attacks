@@ -1,7 +1,6 @@
 export default class ServiceCalls{
 serviceUrl:string="http://localhost:3000/";
-public getLoginInfo(emailId:string,password:string){
- var   query:string="select * from c";
+public getLoginInfo(query:string){
     return fetch("api/Login/GetLoginInfo",{
         headers:
             {
@@ -12,9 +11,10 @@ public getLoginInfo(emailId:string,password:string){
             method: 'post',
             body: JSON.stringify(query)
     })
-    .then(response=>response.json)
+    .then(response=>response.json())
     .then(
         (data) => {
+            console.log(data)
             return data;
         },
         (error) => {
@@ -23,5 +23,25 @@ public getLoginInfo(emailId:string,password:string){
     )
 }
 
+    public addLoginEntry(login: any) {
+        return fetch("api/Login/AddLoginEntry", {
+            headers:
+            {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
 
+            method: 'post',
+            body: JSON.stringify(login)
+        })
+            .then(response => response.json())
+            .then(
+                (data) => {
+                    return data;
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+    }
 }

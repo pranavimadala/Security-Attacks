@@ -2,27 +2,37 @@ import React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Stack, IStackProps, IStackStyles } from 'office-ui-fabric-react/lib/Stack';
 import { PrimaryButton } from 'office-ui-fabric-react';
-
+import ServiceCalls from '../services/ServicesCall';
 const columnProps: Partial<IStackProps> = {
     tokens: { childrenGap: 15 },
 };
 
-interface ISignupPage{
-    emailId:string,
-    password:string,
-    userName:string
+interface ISignupProps {
+    changeHandler: any
+    login: {
+    EmailId: string,
+        Password: string,
+            UserName: string,
+                Type: string
+    }
+    setLoginStatus:any
 }
 
-export default class SignupComponent extends React.Component<{}, ISignupPage> {
-
-    constructor(props:any){
+interface ISignupState {
+    login: {
+        EmailId: string,
+        Password: string,
+        UserName: string,
+        Type: string
+    }
+}
+export default class SignupComponent extends React.Component<ISignupProps, ISignupState> {
+    _service: ServiceCalls = new ServiceCalls();
+    constructor(props: ISignupProps){
         super(props);
-        this.state={
-            emailId:"",
-            password:"",
-            userName:""
+        this.state = {
+            login: this.props.login
         }
-        this.changehandler=this.changehandler.bind(this);
         this.sendData=this.sendData.bind(this);
     }
 
@@ -30,38 +40,24 @@ export default class SignupComponent extends React.Component<{}, ISignupPage> {
         return (
             <div className="signup-page">
                 <Stack {...columnProps}>
-                    <TextField label="User Name" required onChange={(e)=>this.changehandler(e,"username")} value={this.state.userName}/>
-                    <TextField label="Email ID" required onChange={(e)=>this.changehandler(e,"email")} value={this.state.emailId}/>
-                    <TextField label="Password" type="password" canRevealPassword required onChange={(e)=>this.changehandler(e,"password")} value={this.state.password}/>
+                    <TextField label="User Name" required onChange={(e) => this.props.changeHandler(e,"username")} value={this.state.login.UserName}/>
+                    <TextField label="Email ID" required onChange={(e) => this.props.changeHandler(e,"email")} value={this.state.login.EmailId}/>
+                    <TextField label="Password" type="password" canRevealPassword required onChange={(e) => this.props.changeHandler(e,"password")} value={this.state.login.Password}/>
                 </Stack>
                 <div className="userlogin-footer">
-                    <PrimaryButton text="Sign Up" onClick={this.sendData}/>
+                    <PrimaryButton text="Sign Up" onClick={() => this.props.setLoginStatus(false)}/>
                 </div>
             </div>
 
         );
     }
 
-    changehandler(event:any,type:string){
-        if(type=="email"){
-            this.setState({
-                emailId:event.target.value
-            })
-        }
-        else if(type=="password"){
-            this.setState({
-                password:event.target.value
-            })
-        }
-        else if(type=="username"){
-            this.setState({
-                userName:event.target.value
-            })
-        }
-    }
+
 
     sendData(){
-        if(this.state.emailId!=""&&this.state.emailId!=" "&&this.state.password!=""&&this.state.password!=" "&&this.state.userName!=""&&this.state.userName!=" ")
-        console.log(this.state)
+        if (this.state.login.EmailId != "" && this.state.login.EmailId != " " && this.state.login.Password != "" && this.state.login.Password != " " && this.state.login.UserName != "" && this.state.login.UserName != " ") {
+            this._service.addLoginEntry(this.state.login);
+            this.props.setLoginStatus(false)
+        }
     }
 }
