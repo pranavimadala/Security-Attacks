@@ -1,5 +1,5 @@
 export default class ServiceCalls{
-serviceUrl:string="http://localhost:3000/";
+    serviceUrl: string ="https://localhost:5001/";
 public getLoginInfo(query:string){
     return fetch("api/Login/GetLoginInfo",{
         headers:
@@ -37,6 +37,7 @@ public getLoginInfo(query:string){
             .then(response => response.json())
             .then(
                 (data) => {
+                    console.log(data)
                     return data;
                 },
                 (error) => {

@@ -37,3 +37,15 @@ padding-top: 10px;
   width: 100px;
   margin: auto;
 }
+
+.parallel-containers{
+    display:inline-block;
+}
+
+.button-link{
+    margin-right:20px;
+}
+
+.details-container{
+    width:inherit;
+}

@@ -19,6 +19,6 @@ namespace Security_Attacks.Interfaces
     public interface ILoginService
     {
         dynamic GetLoginInfo(string query);
-        void AddLoginInfo(Login login);
+        Task<dynamic> AddLoginInfo(dynamic login);
     }
 }

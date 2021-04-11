@@ -33,9 +33,9 @@ namespace Security_Attacks.Services
 
     public LoginService()
         {
-            EndpointUri = "https://security.documents.azure.com:443/";
-            PrimaryKey = "OwjD1B98VSphdCroLfPbirUFlEeJfXIs58lYuvhaY6saeMb4f8wGIxX24Gvw6TcwxHgKuE7z7C6fXEVXF8OHGg==";
-            DatabaseId = "security";
+            EndpointUri = "https://securityattacks.documents.azure.com:443/";
+            PrimaryKey = "JlCN90yrAGQyGgyvslZnVl4z9bRFiay3oD38K3GriKrZga4aBIR1XlKYPMzpODj5N19ugDKZ1GhSykAEVLFGaA==";
+            DatabaseId = "securitytest";
             CollectionId = "items";
              var res = CreateDatabase();
             res.Wait();
@@ -60,16 +60,18 @@ namespace Security_Attacks.Services
             }
         }
 
-        public void AddLoginInfo(Login login)
+        public async Task<dynamic> AddLoginInfo(dynamic login)
         {
             try
             {
                
-                this.client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), login);
+                ResourceResponse<Document> response = await this.client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), login);
+
+                return JsonConvert.DeserializeObject<dynamic>(response.Resource.ToString());
             }
             catch (Exception e)
             {
-                 
+                return e;
             }
         }
     }

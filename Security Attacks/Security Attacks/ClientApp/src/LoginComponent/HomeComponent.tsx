@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pivot, PivotItem, PivotLinkSize  } from 'office-ui-fabric-react/lib/Pivot';
 import { IStyleSet } from 'office-ui-fabric-react/lib/Styling';
+import { NavLink } from 'react-router-dom';
 import LoginComponent from './LoginPage';
 import SignupComponent from './SignupPage';
 import DetailsComponent from './DetailsComponent';
@@ -45,7 +46,10 @@ export default class HomeComponent extends React.Component<{}, IHomeState> {
                     </Pivot>
                 </div>
                 :
-                <DetailsComponent emailId={this.state.login.EmailId} password={this.state.login.Password} userName={this.state.login.UserName} />
+                
+
+                <DetailsComponent emailId={this.state.login.EmailId} password={this.state.login.Password} userName={this.state.login.UserName} setLoginStatus={this.setLoginStatus}/>
+                   
             }
       </div>
     );
@@ -75,6 +79,18 @@ export default class HomeComponent extends React.Component<{}, IHomeState> {
     }
 
     public setLoginStatus(value: boolean) {
+        if (value) {
+            this.setState({
+                isLogin: value,
+                login: {
+                    EmailId: "",
+                    Password: "",
+                    UserName: "",
+                    Type: "Login"
+                },
+            })
+        }
+        else
         this.setState({
             isLogin:value
         })

@@ -30,9 +30,9 @@ namespace Security_Attacks.Controllers
 
         [HttpPost]
         [Route("AddLoginEntry")]
-        public void AddLoginEntry(Login login)
+        public  dynamic AddLoginEntry(dynamic login)
         {
-            loginServices.AddLoginInfo(login);
+           return loginServices.AddLoginInfo(login);
         }
     }
 }
